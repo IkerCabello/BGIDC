@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_login">
+
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.myapplication.ui.login.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login"/>
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/navigation_register" />
+        <action
+            android:id="@+id/action_loginFragment_to_update_userFragment"
+            app:destination="@id/navigation_update_user" />
+        <action
+            android:id="@+id/action_loginFragment_to_adminPanelFragment"
+            app:destination="@id/navigation_admin" />
+
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.example.myapplication.ui.login.RegisterFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_register"/>
+        <action
+            android:id="@+id/action_registerFragment_to_loginFragment"
+            app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_registerFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
+
+    <fragment
+        android:id="@+id/navigation_update_user"
+        android:name="com.example.myapplication.ui.login.UpdateUserFragment"
+        android:label="@string/update"
+        tools:layout="@layout/fragment_update_user" />
+        <action
+            android:id="@+id/action_update_userFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.example.myapplication.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home" />
+        <action
+            android:id="@+id/action_homeFragment_to_locationFragment"
+            app:destination="@id/navigation_location" />
+        <action
+            android:id="@+id/action_homeFragment_to_speakersFragment"
+            app:destination="@id/navigation_speakers" />
+        <action
+            android:id="@+id/action_homeFragment_to_partnersFragment"
+            app:destination="@id/navigation_partners" />
+        <action
+            android:id="@+id/action_homeFragment_to_sessionDetailFragment"
+            app:destination="@id/navigation_session_detail" />
+        <action
+            android:id="@+id/action_homeFragment_to_attendeesFragment"
+            app:destination="@id/navigation_attendees" />
+
+    <fragment
+        android:id="@+id/navigation_schedule"
+        android:name="com.example.myapplication.ui.schedule.ScheduleFragment"
+        android:label="@string/title_schedule"
+        tools:layout="@layout/fragment_schedule" />
+
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.myapplication.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+        <action
+            android:id="@+id/action_profileFragment_to_editProfileFragment"
+            app:destination="@id/navigation_edit_profile" />
+
+    <fragment
+        android:id="@+id/navigation_location"
+        android:name="com.example.myapplication.ui.location.LocationFragment"
+        android:label="@string/title_location"
+        tools:layout="@layout/fragment_location" />
+
+    <fragment
+        android:id="@+id/navigation_speakers"
+        android:name="com.example.myapplication.ui.speakers.SpeakersFragment"
+        android:label="@string/title_speakers"
+        tools:layout="@layout/fragment_speakers" />
+        <action
+            android:id="@+id/action_speakersFragment_to_speakerDetailFragment"
+            app:destination="@id/navigation_speakers_detail" />
+
+    <fragment
+        android:id="@+id/navigation_speakers_detail"
+        android:name="com.example.myapplication.ui.speakers.SpeakerDetailFragment"
+        android:label="@string/title_speakers"
+        tools:layout="@layout/fragment_speaker_detail" />
+
+    <fragment
+        android:id="@+id/navigation_attendees"
+        android:name="com.example.myapplication.ui.attendees.AttendeesFragment"
+        android:label="@string/title_attendees"
+        tools:layout="@layout/fragment_attendees" />
+        <action
+            android:id="@+id/action_attendeesFragment_to_attendeeDetailFragment"
+            app:destination="@id/navigation_attendee_detail" />
+
+    <fragment
+        android:id="@+id/navigation_attendee_detail"
+        android:name="com.example.myapplication.ui.attendees.AttendeeDetailFragment"
+        android:label="@string/title_attendees"
+        tools:layout="@layout/fragment_attendee_detail" />
+
+    <fragment
+        android:id="@+id/navigation_sessions"
+        android:name="com.example.myapplication.ui.schedule.AgendaFragment"
+        android:label="@string/title_sessions"
+        tools:layout="@layout/fragment_agenda" />
+        <action
+            android:id="@+id/action_agendaFragment_to_sessionDetailFragment"
+            app:destination="@id/navigation_session_detail" />
+
+    <fragment
+        android:id="@+id/navigation_session_detail"
+        android:name="com.example.myapplication.ui.schedule.SessionDetailFragment"
+        android:label="@string/title_sessions"
+        tools:layout="@layout/fragment_session_detail" />
+
+    <fragment
+        android:id="@+id/navigation_my_schedule"
+        android:name="com.example.myapplication.ui.schedule.MyScheduleFragment"
+        android:label="@string/title_sessions"
+        tools:layout="@layout/fragment_my_schedule" />
+        <action
+            android:id="@+id/action_myScheduleFragment_to_sessionDetailFragment"
+            app:destination="@id/navigation_session_detail" />
+
+    <fragment
+        android:id="@+id/navigation_partners"
+        android:name="com.example.myapplication.ui.partners.PartnersFragment"
+        android:label="@string/title_sponsors"
+        tools:layout="@layout/fragment_partners" />
+
+    <fragment
+        android:id="@+id/navigation_edit_profile"
+        android:name="com.example.myapplication.ui.profile.EditProfileFragment"
+        android:label="@string/edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_loginFragment"
+            app:destination="@id/navigation_login" />
+
+    <fragment
+        android:id="@+id/navigation_admin"
+        android:name="com.example.myapplication.ui.admin.AdminPanelFragment"
+        android:label="@string/admin"
+        tools:layout="@layout/fragment_admin_panel" />
+        <action
+            android:id="@+id/action_adminPanelFragment_to_sessionAdminFragment"
+            app:destination="@id/navigation_sessions_admin" />
+        <action
+            android:id="@+id/action_adminPanelFragment_to_sessionUserFragment"
+            app:destination="@id/navigation_users_admin" />
+        <action
+            android:id="@+id/action_adminPanelFragment_to_loginFragment"
+            app:destination="@id/navigation_login" />
+
+    <fragment
+        android:id="@+id/navigation_sessions_admin"
+        android:name="com.example.myapplication.ui.admin.sessions.SessionAdminFragment"
+        android:label="@string/title_sessions"
+        tools:layout="@layout/fragment_session_admin" />
+
+    <fragment
+        android:id="@+id/navigation_users_admin"
+        android:name="com.example.myapplication.ui.admin.users.UserAdminFragment"
+        android:label="@string/users"
+        tools:layout="@layout/fragment_user_admin" />
+
+</navigation>

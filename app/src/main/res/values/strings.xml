@@ -1,0 +1,111 @@
+<resources>
+
+    <string name="app_name">EventApp</string>
+
+    <!-- LOGIN AND REGISTER -->
+    <string name="user">Username</string>
+    <string name="email">E-mail address</string>
+    <string name="pass">Password</string>
+    <string name="register_text">Don\'t have an account yet? Register</string>
+    <string name="login_text">Do you have an account? Log in</string>
+    <string name="update">Update your data</string>
+    <string name="updatebtn">Update</string>
+    <string name="name">Name and surname</string>
+    <string name="Login">Log in</string>
+    <string name="Register">Register</string>
+    <string name="upload">Select your image</string>
+    <string name="check">Check your email for credentials</string>
+
+    <string-array name="user_types">
+        <item>attendee</item>
+        <item>speaker</item>
+    </string-array>
+
+    <!-- NAVIGATION MENU -->
+    <string name="title_home">Home</string>
+    <string name="title_schedule">Schedule</string>
+    <string name="title_attendees">Attendees</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_location">Location</string>
+    <string name="title_speakers">Speakers</string>
+    <string name="title_sponsors">Partners</string>
+    <string name="title_sessions">Sessions</string>
+
+    <!-- HOME PAGE -->
+    <string name="event_shortname">BGIDC 2025</string>
+    <string name="event_name">Bulgarian Identity Conference</string>
+    <string name="event_desc">The first conference in Bulgaria dedicated to Identity Management and the
+        dimensions that this field has in cyber security and the legal initiatives
+        related to it – GDPR, HIPAA, DORA, PCI DSS and the MIS Directive 2.</string>
+    <string name="btn1">Attendees</string>
+    <string name="btn2">Partners</string>
+    <string name="btn3">Speakers</string>
+    <string name="btn4">Location</string>
+
+    <!-- SCHEDULE MENU-->
+    <string name="sm1">Agenda</string>
+    <string name="sm2">My Schedule</string>
+
+    <!-- SCHEDULE PAGE -->
+    <string name="af1">Room A1</string>
+    <string name="af2">Room B1</string>
+    <string name="af3">All</string>
+
+    <!-- PROFILE PAGE -->
+    <string name="username">Username</string>
+    <string name="company">Company</string>
+    <string name="position">Position</string>
+    <string name="announcements">Announcements</string>
+    <string name="messages">Messages</string>
+    <string name="connections">Connections</string>
+    <string name="Surveys">Surveys</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="delete">Delete</string>
+    <string name="save">Save</string>
+    <string name="change">Change image</string>
+    <string name="change_pass">Change password</string>
+    <string name="currentp">Current password</string>
+    <string name="newp">New password</string>
+    <string name="confirmp">Confirm password</string>
+
+    <!-- LOCATION PAGE -->
+    <string name="venue_bic">Venue of BIC 2025</string>
+    <string name="place_name">Interpred - World Trade Center Sofia</string>
+    <string name="street_name">1040, Dragan Tsankov Blvd. 36, 1113 Sofia</string>
+    <string name="go_to_maps">Go to Maps</string>
+
+    <!-- SPEAKERS PAGE -->
+    <string name="sp1">Ivan Pepelov</string>
+
+    <string name="sp1pos">CEO</string>
+
+    <string name="com1">IDVKM</string>
+
+    <string name="about">About</string>
+    <string name="speakTv">Speaker Sessions</string>
+
+    <!-- PARTNERS PAGE -->
+    <string name="ph1">Technology partners</string>
+    <string name="ph2">Business partners</string>
+    <string name="ph3">Organizations we are members of</string>
+
+    <string name="techp1">One Identity</string>
+    <string name="techp2">IdStory</string>
+    <string name="techp3">Ping Identity</string>
+
+    <string name="bussp1">Amatas</string>
+
+    <string name="membs1">German-Bulgarian Chamber of Commerce and Industry</string>
+    <string name="membs2">Dutch-Bulgarian Chamber of Commerce</string>
+
+    <!-- GENERAL BUTTONS -->
+    <string name="connectBtn">Connect</string>
+
+    <!-- ADMINISTRATION PANEL -->
+    <string name="admin">Administration panel</string>
+    <string name="users">Users</string>
+    <string name="exit">Exit</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
