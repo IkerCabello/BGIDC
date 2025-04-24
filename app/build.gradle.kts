@@ -16,6 +16,8 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "SENDINBLUE_API_KEY", "\"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\"")
+        buildConfigField("String", "SENDINBLUE_API_URL", "\"https://api.sendinblue.com/v3/smtp/email\"")
     }
 
     buildTypes {
@@ -35,6 +37,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         viewBinding = true
     }
 }

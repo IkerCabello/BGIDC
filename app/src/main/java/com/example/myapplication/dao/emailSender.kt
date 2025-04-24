@@ -1,5 +1,6 @@
 package com.example.myapplication.dao
 
+import com.example.myapplication.BuildConfig
 import okhttp3.*
 import org.json.JSONArray
 import org.json.JSONObject
@@ -7,8 +8,8 @@ import java.io.IOException
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
 
-private const val api_url = "https://api.sendinblue.com/v3/smtp/email"
-private const val api_key = "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" // sendinblue
+const val api_url: String = BuildConfig.SENDINBLUE_API_URL
+const val api_key: String = BuildConfig.SENDINBLUE_API_KEY // sendinblue
 
 fun sendEmail(email: String, username: String, password: String) {
 
