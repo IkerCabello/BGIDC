@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     tools:context=".ui.home.HomeFragment">
 
     <ScrollView
@@ -23,7 +24,6 @@
                 android:id="@+id/headerImg"
                 android:layout_width="0dp"
                 android:layout_height="236dp"
-                android:layout_marginTop="55dp"
                 android:alpha="0.9"
                 android:scaleType="centerCrop"
                 android:src="@drawable/blueback"
