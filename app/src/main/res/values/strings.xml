@@ -67,6 +67,7 @@
     <string name="currentp">Current password</string>
     <string name="newp">New password</string>
     <string name="confirmp">Confirm password</string>
+    <string name="adbtn">Admin panel</string>
 
     <!-- LOCATION PAGE -->
     <string name="venue_bic">Venue of BIC 2025</string>
@@ -105,7 +106,9 @@
     <string name="admin">Administration panel</string>
     <string name="users">Users</string>
     <string name="exit">Exit</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="newSession">Create a Session</string>
+    <string name="listSessions">See all sessions</string>
+
 
 </resources>

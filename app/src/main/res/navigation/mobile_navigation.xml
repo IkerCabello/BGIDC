@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_profileFragment_to_editProfileFragment"
             app:destination="@id/navigation_edit_profile" />
+        <action
+            android:id="@+id/action_profileFragment_to_adminPanelFragment"
+            app:destination="@id/navigation_admin" />
 
     <fragment
         android:id="@+id/navigation_location"

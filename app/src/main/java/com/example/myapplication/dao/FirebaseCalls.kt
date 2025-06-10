@@ -1,5 +1,6 @@
 package com.example.myapplication.dao
 
+import android.util.Log
 import com.example.myapplication.ui.model.Session
 import com.example.myapplication.ui.model.User
 import com.google.firebase.firestore.DocumentReference
@@ -84,6 +85,18 @@ class FirebaseCalls {
             }
             .addOnFailureListener { exception ->
                 onFailure(exception)
+            }
+    }
+
+    fun deleteUser(userId: String, onComplete: () -> Unit) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("users").document(userId)
+            .delete()
+            .addOnSuccessListener {
+                onComplete()
+            }
+            .addOnFailureListener { e ->
+                Log.e("Firebase", "Error deleting user", e)
             }
     }
 

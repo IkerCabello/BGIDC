@@ -46,7 +46,7 @@ class HomeFragment : Fragment() {
 
         sessionsAdapter = SessionsAdapter(emptyList(), { selectedSession ->
             openSessionDetailFragment(selectedSession) //Open session in detail page
-        }, { session ->
+        }, {
             //
         })
         recyclerView.adapter = sessionsAdapter
@@ -96,10 +96,10 @@ class HomeFragment : Fragment() {
             putString("desc", session.description)
             putString("start_time", session.start_time?.toDate()?.toString() ?: "N/A")
             putString("end_time", session.end_time?.toDate()?.toString() ?: "N/A")
-            putStringArrayList("speakerNames", ArrayList(session.speakerDetails.map { it.name ?: "Unknown" }))
-            putStringArrayList("speakerPhotos", ArrayList(session.speakerDetails.map { it.profile_img ?: "" }))
-            putStringArrayList("speakerCompanies", ArrayList(session.speakerDetails.map { it.company ?: "N/A" }))
-            putStringArrayList("speakerPositions", ArrayList(session.speakerDetails.map { it.position ?: "N/A" }))
+            putStringArrayList("speakerNames", ArrayList(session.speakerDetails.map { it.name }))
+            putStringArrayList("speakerPhotos", ArrayList(session.speakerDetails.map { it.profile_img }))
+            putStringArrayList("speakerCompanies", ArrayList(session.speakerDetails.map { it.company }))
+            putStringArrayList("speakerPositions", ArrayList(session.speakerDetails.map { it.position }))
         }
         findNavController().navigate(R.id.action_homeFragment_to_sessionDetailFragment, bundle)
     }

@@ -33,6 +33,10 @@ class ProfileFragment : Fragment() {
             goToEdit()
         }
 
+        binding.adminBtn.setOnClickListener{
+            goToAdmin()
+        }
+
         return root
     }
 
@@ -79,6 +83,10 @@ class ProfileFragment : Fragment() {
 
     private fun goToEdit() {
         findNavController().navigate(R.id.action_profileFragment_to_editProfileFragment)
+    }
+
+    private fun goToAdmin() {
+        findNavController().navigate(R.id.action_profileFragment_to_adminPanelFragment)
     }
 
     override fun onDestroyView() {
