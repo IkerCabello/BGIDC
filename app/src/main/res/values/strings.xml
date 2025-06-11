@@ -110,5 +110,12 @@
     <string name="newSession">Create a Session</string>
     <string name="listSessions">See all sessions</string>
 
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="start_time">Start time</string>
+    <string name="end_time">End time</string>
+    <string name="room">Select the room</string>
+    <string name="select_speakers">Select speaker/ers</string>
+    <string name="create_session">Create session</string>
 
 </resources>

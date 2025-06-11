@@ -178,11 +178,29 @@
         android:name="com.example.myapplication.ui.admin.sessions.SessionAdminFragment"
         android:label="@string/title_sessions"
         tools:layout="@layout/fragment_session_admin" />
+        <action
+            android:id="@+id/action_sessionAdminFragment_to_newSessionFragment"
+            app:destination="@id/navigation_new_session" />
+        <action
+            android:id="@+id/action_sessionAdminFragment_to_listSessionsFragment"
+            app:destination="@id/navigation_list_sessions" />
 
     <fragment
         android:id="@+id/navigation_users_admin"
         android:name="com.example.myapplication.ui.admin.users.UserAdminFragment"
         android:label="@string/users"
+        tools:layout="@layout/fragment_user_admin" />
+
+    <fragment
+        android:id="@+id/navigation_new_session"
+        android:name="com.example.myapplication.ui.admin.sessions.NewSessionFragment"
+        android:label="@string/newSession"
+        tools:layout="@layout/fragment_user_admin" />
+
+    <fragment
+        android:id="@+id/navigation_list_sessions"
+        android:name="com.example.myapplication.ui.admin.sessions.ListSessionsFragment"
+        android:label="@string/listSessions"
         tools:layout="@layout/fragment_user_admin" />
 
 </navigation>
