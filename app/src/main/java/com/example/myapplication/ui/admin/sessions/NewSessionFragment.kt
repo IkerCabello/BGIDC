@@ -138,8 +138,8 @@ class NewSessionFragment : Fragment() {
             val overlaps = sessions.any {
                 it.room == room &&
                         it.start_time != null && it.end_time != null &&
-                        selectedStartTime!!.toDate() < it.end_time!!.toDate() &&
-                        selectedEndTime!!.toDate() > it.start_time!!.toDate()
+                        selectedStartTime!!.toDate() < it.end_time.toDate() &&
+                        selectedEndTime!!.toDate() > it.start_time.toDate()
             }
 
             if (overlaps) {
@@ -153,7 +153,9 @@ class NewSessionFragment : Fragment() {
                     start_time = selectedStartTime,
                     end_time = selectedEndTime,
                     sessionId = newId,
-                    speakers = selectedSpeakers.map { FirebaseFirestore.getInstance().collection("users").document(it.id!!) }
+                    speakers = selectedSpeakers.map { FirebaseFirestore.getInstance().collection("users").document(
+                        it.id
+                    ) }
                 )
 
                 FirebaseFirestore.getInstance()

@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="false"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="KeyboardInaccessibleWidget,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- End time -->
@@ -103,7 +103,7 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="false"
-                    tools:ignore="TextContrastCheck" />
+                    tools:ignore="KeyboardInaccessibleWidget,TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Dropdown Room -->
