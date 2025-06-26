@@ -202,5 +202,18 @@
         android:name="com.example.myapplication.ui.admin.sessions.ListSessionsFragment"
         android:label="@string/listSessions"
         tools:layout="@layout/fragment_user_admin" />
+        <action
+            android:id="@+id/action_listSessionsFragment_to_editSessionFragment"
+            app:destination="@id/fragment_edit_session" />
+
+    <fragment
+        android:id="@+id/fragment_edit_session"
+        android:name="com.example.myapplication.ui.admin.sessions.EditSessionFragment"
+        android:label="@string/title_sessions"
+        tools:layout="@layout/fragment_edit_session">
+            <argument
+                android:name="sessionId"
+                app:argType="integer" />
+    </fragment>
 
 </navigation>

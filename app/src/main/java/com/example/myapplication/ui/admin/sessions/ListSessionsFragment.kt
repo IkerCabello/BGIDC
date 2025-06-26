@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.admin.sessions
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.R
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.NavOptions
 import com.example.myapplication.databinding.FragmentListSessionsBinding
 import com.example.myapplication.ui.model.Session
 import com.google.firebase.firestore.FirebaseFirestore
@@ -31,7 +37,11 @@ class ListSessionsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        adapter = SessionAdapter(emptyList())
+        adapter = SessionAdapter(emptyList(),
+            onEditClick = { session -> openEditSession(session) },
+            onDeleteClick = { session -> confirmDeleteSession(session) }
+        )
+
         binding.sessionRv.layoutManager = LinearLayoutManager(requireContext())
         binding.sessionRv.adapter = adapter
 
@@ -86,6 +96,50 @@ class ListSessionsFragment : Fragment() {
             it.title.contains(query, ignoreCase = true)
         }
         adapter.updateList(filtered)
+    }
+
+    private fun openEditSession(session: Session) {
+        val bundle = Bundle().apply {
+            putInt("sessionId", session.sessionId)
+        }
+        findNavController().navigate(R.id.action_listSessionsFragment_to_editSessionFragment, bundle)
+    }
+
+    private fun confirmDeleteSession(session: Session) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Delete Session")
+            .setMessage("Are you sure you want to delete this session?")
+            .setPositiveButton("Yes") { _, _ ->
+                deleteSession(session)
+            }
+            .setNegativeButton("No", null)
+            .show()
+    }
+
+    private fun deleteSession(session: Session) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("sessions")
+            .whereEqualTo("sessionId", session.sessionId)
+            .limit(1)
+            .get()
+            .addOnSuccessListener { result ->
+                val doc = result.documents.firstOrNull()
+                if (doc != null) {
+                    doc.reference.delete()
+                        .addOnSuccessListener {
+                            Toast.makeText(requireContext(), "Session deleted", Toast.LENGTH_SHORT).show()
+                            loadSessions() // Recarga la lista
+                        }
+                        .addOnFailureListener {
+                            Toast.makeText(requireContext(), "Error deleting session", Toast.LENGTH_SHORT).show()
+                        }
+                } else {
+                    Toast.makeText(requireContext(), "Session not found", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(requireContext(), "Error finding session", Toast.LENGTH_SHORT).show()
+            }
     }
 
     override fun onDestroyView() {

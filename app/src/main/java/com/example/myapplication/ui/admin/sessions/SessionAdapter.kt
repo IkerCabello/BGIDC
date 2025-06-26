@@ -13,7 +13,9 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class SessionAdapter(
-    private var sessions: List<Session>
+    private var sessions: List<Session>,
+    private val onEditClick: (Session) -> Unit,
+    private val onDeleteClick: (Session) -> Unit
 ) : RecyclerView.Adapter<SessionAdapter.SessionViewHolder>() {
 
     private val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
@@ -38,7 +40,13 @@ class SessionAdapter(
         holder.tvTitle.text = session.title
         holder.tvRoom.text = session.room
 
-        // TODO: Agrega listeners si necesitas manejar edición o eliminación
+        holder.btnEdit.setOnClickListener {
+            onEditClick(session)
+        }
+
+        holder.btnDelete.setOnClickListener {
+            onDeleteClick(session)
+        }
     }
 
     override fun getItemCount() = sessions.size
