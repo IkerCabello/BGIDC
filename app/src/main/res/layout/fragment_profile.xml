@@ -7,42 +7,50 @@
     tools:context=".ui.profile.ProfileFragment">
 
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="75dp"
+        android:orientation="horizontal"
+        android:backgroundTint="?attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/userImg"
         android:layout_width="100dp"
         android:layout_height="88dp"
         android:layout_marginTop="70dp"
-        android:layout_marginBottom="20dp"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/usernameText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.547"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         tools:src="@drawable/userimage" />
 
     <TextView
         android:id="@+id/usernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:text="@string/username"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.18" />
+        app:layout_constraintTop_toBottomOf="@+id/userImg"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/companyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
+        android:layout_marginTop="15dp"
         android:text="@string/company"
-        app:layout_constraintBottom_toTopOf="@+id/lineMain"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/usernameText" />
 
@@ -50,26 +58,28 @@
         android:id="@+id/positionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="110dp"
+        android:layout_marginTop="15dp"
         android:text="@string/position"
-        app:layout_constraintBottom_toTopOf="@+id/lineMain"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/companyText" />
 
     <LinearLayout
         android:id="@+id/lineMain"
         android:layout_width="350dp"
         android:layout_height="3dp"
+        android:layout_marginTop="20dp"
         android:background="@color/blue_200"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.29" />
+        app:layout_constraintTop_toBottomOf="@+id/positionText"
+        app:layout_constraintVertical_bias="0.0" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/announcementsGroupLayout"
+        android:id="@+id/settingsGroupLayout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -79,10 +89,10 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
-            android:id="@+id/announcementsImg"
+            android:id="@+id/settingsImg"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:src="@drawable/ic_notifications"
+            android:src="@drawable/ic_settings"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
@@ -90,16 +100,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/announcementsText"
+            android:id="@+id/settingsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/announcements"
+            android:text="@string/settings"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toEndOf="@+id/announcementsImg"
+            app:layout_constraintStart_toEndOf="@+id/settingsImg"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -112,11 +122,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/announcementsGroupLayout"
+        app:layout_constraintTop_toBottomOf="@+id/settingsGroupLayout"
         app:layout_constraintVertical_bias="0.0"></LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/messagesGroupLayout"
+        android:id="@+id/editProfileGroupLayout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -126,10 +136,10 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
-            android:id="@+id/messagesImg"
+            android:id="@+id/editProfileImg"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:src="@drawable/ic_messages"
+            android:src="@drawable/ic_edit_profile"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
@@ -137,16 +147,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/messagesText"
+            android:id="@+id/editProfileText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/messages"
+            android:text="@string/edit_profile"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toEndOf="@+id/messagesImg"
+            app:layout_constraintStart_toEndOf="@+id/editProfileImg"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -160,11 +170,11 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/messagesGroupLayout"
+        app:layout_constraintTop_toBottomOf="@+id/editProfileGroupLayout"
         app:layout_constraintVertical_bias="0.0"></LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/connectionsGroupLayout"
+        android:id="@+id/adminPanelGroupLayout"
         android:layout_width="0dp"
         android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -174,10 +184,10 @@
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
-            android:id="@+id/connectionsImg"
+            android:id="@+id/adminPanelImg"
             android:layout_width="55dp"
             android:layout_height="55dp"
-            android:src="@drawable/ic_connections"
+            android:src="@drawable/ic_dashboard_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.15"
@@ -185,16 +195,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/connectionsText"
+            android:id="@+id/adminPanelText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            android:text="@string/connections"
+            android:text="@string/admin"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toEndOf="@id/connectionsImg"
+            app:layout_constraintStart_toEndOf="@id/adminPanelImg"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -208,64 +218,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/connectionsGroupLayout"
+        app:layout_constraintTop_toBottomOf="@+id/adminPanelGroupLayout"
         app:layout_constraintVertical_bias="0.0"></LinearLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/surveysGroupLayout"
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/separatorLine3"
-        app:layout_constraintVertical_bias="0.0">
-
-        <ImageView
-            android:id="@+id/surveysImg"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
-            android:src="@drawable/ic_surveys"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/surveysText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/Surveys"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.08"
-            app:layout_constraintStart_toEndOf="@id/surveysImg"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <Button
-        android:id="@+id/editProfileBtn"
-        android:layout_width="155dp"
-        android:layout_height="70dp"
-        android:text="@string/edit_profile"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surveysGroupLayout"
-        app:layout_constraintVertical_bias="0.05" />
-
-    <Button
-        android:id="@+id/adminBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/adbtn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/surveysGroupLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

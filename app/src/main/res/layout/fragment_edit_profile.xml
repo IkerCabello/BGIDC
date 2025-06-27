@@ -10,7 +10,7 @@
         android:id="@+id/profileImg"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="80dp"
         android:adjustViewBounds="true"
         android:contentDescription="@string/username"
         android:scaleType="centerCrop"

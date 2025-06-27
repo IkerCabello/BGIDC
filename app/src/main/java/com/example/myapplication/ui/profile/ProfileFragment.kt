@@ -29,11 +29,15 @@ class ProfileFragment : Fragment() {
 
         loadUserData()
 
-        binding.editProfileBtn.setOnClickListener {
+        binding.settingsGroupLayout.setOnClickListener {
+            goToSettings()
+        }
+
+        binding.editProfileGroupLayout.setOnClickListener {
             goToEdit()
         }
 
-        binding.adminBtn.setOnClickListener{
+        binding.adminPanelGroupLayout.setOnClickListener{
             goToAdmin()
         }
 
@@ -87,6 +91,10 @@ class ProfileFragment : Fragment() {
 
     private fun goToAdmin() {
         findNavController().navigate(R.id.action_profileFragment_to_adminPanelFragment)
+    }
+
+    private fun goToSettings() {
+        findNavController().navigate(R.id.action_profileFragment_to_settingsFragment)
     }
 
     override fun onDestroyView() {

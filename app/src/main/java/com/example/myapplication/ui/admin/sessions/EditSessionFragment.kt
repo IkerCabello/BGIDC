@@ -17,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import java.text.SimpleDateFormat
 import java.util.*
 import android.util.Log
+import com.example.myapplication.MainActivity
 
 class EditSessionFragment : Fragment() {
 
