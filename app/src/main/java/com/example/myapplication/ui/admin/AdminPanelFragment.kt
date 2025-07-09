@@ -31,7 +31,7 @@ class AdminPanelFragment : Fragment() {
         }
 
         binding.exitBtn.setOnClickListener {
-            findNavController().navigate(R.id.action_adminPanelFragment_to_loginFragment)
+            findNavController().navigate(R.id.action_adminPanelFragment_to_homeFragment)
         }
 
         return root

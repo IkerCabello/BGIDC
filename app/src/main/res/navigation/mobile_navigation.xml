@@ -173,8 +173,8 @@
             android:id="@+id/action_adminPanelFragment_to_sessionUserFragment"
             app:destination="@id/navigation_users_admin" />
         <action
-            android:id="@+id/action_adminPanelFragment_to_loginFragment"
-            app:destination="@id/navigation_login" />
+            android:id="@+id/action_adminPanelFragment_to_homeFragment"
+            app:destination="@id/navigation_home" />
 
     <fragment
         android:id="@+id/navigation_sessions_admin"

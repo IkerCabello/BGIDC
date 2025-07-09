@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.myapplication.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -54,6 +53,16 @@ class MainActivity : AppCompatActivity() {
         )
 
         navView.setupWithNavController(navController)
+
+        // 🔒 Escucha cambios de destino para ocultar el BottomNavigationView
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_login,
+                R.id.navigation_register,
+                R.id.navigation_update_user -> hideBottomNavigationView()
+                else -> showBottomNavigationView()
+            }
+        }
     }
 
     fun showBottomNavigationView() {

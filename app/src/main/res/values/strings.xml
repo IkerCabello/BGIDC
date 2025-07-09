@@ -68,6 +68,8 @@
     <string name="newp">New password</string>
     <string name="confirmp">Confirm password</string>
     <string name="adbtn">Admin panel</string>
+    <string name="logout">Log out</string>
+    <string name="delete_acc">Delete the account</string>
 
     <!-- LOCATION PAGE -->
     <string name="venue_bic">Venue of BIC 2025</string>
@@ -117,7 +119,5 @@
     <string name="room">Select the room</string>
     <string name="select_speakers">Select speaker/ers</string>
     <string name="create_session">Create session</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
