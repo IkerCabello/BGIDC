@@ -68,6 +68,7 @@ class SpeakersFragment : Fragment() {
             putString("position", user.position)
             putString("about", user.about)
             putString("profileimg", user.profile_img)
+            putString("linkedinUrl", user.linkedin_url)
             putStringArrayList("sessionTitles", sessionTitles)
             putParcelableArrayList("sessionStartTime", sessionStartTime)
             putParcelableArrayList("sessionEndTime", sessionEndTime)

@@ -27,6 +27,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import androidx.core.content.edit
 
 class UpdateUserFragment : Fragment() {
 
@@ -123,7 +124,8 @@ class UpdateUserFragment : Fragment() {
                     "sessions" to listOf<String>(),
                     "about" to about,
                     "email" to email,
-                    "needsUpdate" to false
+                    "needsUpdate" to false,
+                    "visible" to true
                 )
 
                 // Add user to firestore
@@ -178,9 +180,9 @@ class UpdateUserFragment : Fragment() {
 
     private fun clearSharedPreferences() {
         val sharedPref: SharedPreferences = requireContext().getSharedPreferences("user_credentials", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.clear()  // Delete
-        editor.apply()
+        sharedPref.edit {
+            clear()  // Delete
+        }
     }
 
     @SuppressLint("CommitPrefEdits")
@@ -188,7 +190,7 @@ class UpdateUserFragment : Fragment() {
         val prefs = requireContext().getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
         prefs.apply {
             prefs.edit().putString("userId", userId)
-            prefs.edit().putLong("lastLoginTime", System.currentTimeMillis()).apply()
+            prefs.edit { putLong("lastLoginTime", System.currentTimeMillis()) }
             prefs.edit().putBoolean("isLoggedIn", true)
         }
     }

@@ -34,14 +34,14 @@ class AttendeesFragment : Fragment() {
         attendeesList = mutableListOf()
 
         // Receive attendees
-        firebaseCalls.getAttendees(
+        firebaseCalls.getVisibleAttendees(
             onSuccess = { attendees ->
                 attendeesList.clear()
                 attendeesList.addAll(attendees)
                 attendeesAdapter.notifyDataSetChanged()
             },
             onFailure = { exception ->
-                Log.e("AttendeesFragment", "Error fetching speakers", exception)
+                Log.e("AttendeesFragment", "Error fetching attendees", exception)
             }
         )
 
@@ -63,6 +63,7 @@ class AttendeesFragment : Fragment() {
             putString("position", user.position)
             putString("about", user.about)
             putString("profileimg", user.profile_img)
+            putString("linkedinUrl", user.linkedin_url)
         }
 
         findNavController().navigate(R.id.action_attendeesFragment_to_attendeeDetailFragment, bundle)

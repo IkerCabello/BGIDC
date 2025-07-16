@@ -88,6 +88,34 @@ class FirebaseCalls {
             }
     }
 
+    fun getVisibleAttendees(onSuccess: (List<User>) -> Unit, onFailure: (Exception) -> Unit) {
+        db.collection("users")
+            .whereEqualTo("user_type", "attendee")
+            .whereEqualTo("visible", true)
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val attendeesList = mutableListOf<User>()
+                for (document in querySnapshot.documents) {
+                    val attendee = document.toObject(User::class.java)
+                    attendee?.id = document.id
+
+                    val profileimgUrl = document.getString("profile_img")
+
+                    if (profileimgUrl != null) {
+                        attendee?.profile_img = profileimgUrl
+                    }
+
+                    if (attendee != null) {
+                        attendeesList.add(attendee)
+                    }
+                }
+                onSuccess(attendeesList)
+            }
+            .addOnFailureListener { exception ->
+                onFailure(exception)
+            }
+    }
+
     fun deleteUser(userId: String, onComplete: () -> Unit) {
         val db = FirebaseFirestore.getInstance()
         db.collection("users").document(userId)

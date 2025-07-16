@@ -100,6 +100,28 @@
                 app:layout_constraintTop_toBottomOf="@+id/aboutTv"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/linkedinBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="60dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="60dp"
+                android:backgroundTint="#0077B5"
+                android:drawableStart="@drawable/linkedin"
+                android:gravity="center"
+                android:text="View LinkedIn profile"
+                android:textColor="@android:color/white"
+                android:visibility="visible"
+                app:cornerRadius="16dp"
+                app:iconGravity="textStart"
+                app:iconTint="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/descTv"
+                app:layout_constraintVertical_bias="0.0" />
+
             <Button
                 android:id="@+id/button"
                 android:layout_width="wrap_content"
@@ -110,7 +132,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/descTv" />
+                app:layout_constraintTop_toBottomOf="@+id/linkedinBtn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

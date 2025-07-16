@@ -1,6 +1,8 @@
 package com.example.myapplication.ui.speakers
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.myapplication.databinding.FragmentSpeakerDetailBinding
 import com.example.myapplication.ui.model.Session
 import com.google.firebase.Timestamp
+import androidx.core.net.toUri
 
 class SpeakerDetailFragment : Fragment() {
 
@@ -22,23 +25,21 @@ class SpeakerDetailFragment : Fragment() {
     ): View {
         binding = FragmentSpeakerDetailBinding.inflate(inflater, container, false)
 
-        // Get user data
         arguments?.let { it ->
-            val id = it.getString("id")
             val name = it.getString("name")
             val company = it.getString("company")
             val position = it.getString("position")
             val about = it.getString("about")
             val image = it.getString("profileimg")
+            val linkedinUrl = it.getString("linkedinUrl")
 
-            val sessionTitles = arguments?.getStringArrayList("sessionTitles") ?: arrayListOf()
+            val sessionTitles = it.getStringArrayList("sessionTitles") ?: arrayListOf()
             val sessionStartTime = it.getParcelableArrayList<Timestamp>("sessionStartTime") ?: arrayListOf()
             val sessionEndTime = it.getParcelableArrayList<Timestamp>("sessionEndTime") ?: arrayListOf()
-            val sessionRooms = arguments?.getStringArrayList("sessionRooms") ?: arrayListOf()
-            val sessionDescriptions = arguments?.getStringArrayList("sessionDescriptions") ?: arrayListOf()
+            val sessionRooms = it.getStringArrayList("sessionRooms") ?: arrayListOf()
+            val sessionDescriptions = it.getStringArrayList("sessionDescriptions") ?: arrayListOf()
 
             val sessions = sessionTitles.mapIndexed { index, title ->
-
                 Session(
                     title = title,
                     description = sessionDescriptions.getOrNull(index) ?: "N/A",
@@ -60,7 +61,17 @@ class SpeakerDetailFragment : Fragment() {
             binding.spssRecyclerView.layoutManager = LinearLayoutManager(requireContext())
             binding.spssRecyclerView.adapter = SimpleSessionAdapter(sessions)
 
+            if (!linkedinUrl.isNullOrEmpty()) {
+                binding.linkedinBtn.visibility = View.VISIBLE
+                binding.linkedinBtn.setOnClickListener {
+                    val intent = Intent(Intent.ACTION_VIEW, linkedinUrl.toUri())
+                    startActivity(intent)
+                }
+            } else {
+                binding.linkedinBtn.visibility = View.GONE
+            }
         }
+
         return binding.root
     }
 }

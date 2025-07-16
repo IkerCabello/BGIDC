@@ -48,7 +48,9 @@ class SessionDetailFragment : Fragment() {
                     user_type = "",
                     about = "",
                     profile_img = speakerPhotos.getOrNull(index) ?: "",
-                    needsUpdate = false
+                    linkedin_url = "",
+                    needsUpdate = false,
+                    visible = false
                 )
             }
 

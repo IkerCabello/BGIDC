@@ -71,6 +71,10 @@
     <string name="logout">Log out</string>
     <string name="delete_acc">Delete the account</string>
 
+    <string name="privacy">Privacy</string>
+    <string name="available">Visible account</string>
+    <string name="available_desc">Confirm this field if you want other users of the application to be able to see your account.</string>
+
     <!-- LOCATION PAGE -->
     <string name="venue_bic">Venue of BIC 2025</string>
     <string name="place_name">Interpred - World Trade Center Sofia</string>

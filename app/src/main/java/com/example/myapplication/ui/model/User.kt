@@ -13,9 +13,11 @@ data class User (
     val user_type: String,
     val about: String,
     var profile_img: String,
+    var linkedin_url: String,
     var sessions: List<DocumentReference> = listOf(),
     var sessionDetails: List<Session> = listOf(),
-    val needsUpdate: Boolean
+    val needsUpdate: Boolean,
+    val visible: Boolean
 
     ) {
 
@@ -29,8 +31,10 @@ data class User (
         user_type = "",
         about = "",
         profile_img = "",
+        linkedin_url = "",
         sessions = emptyList(),
         sessionDetails = emptyList(),
-        needsUpdate = false
+        needsUpdate = false,
+        visible = true
     )
 }
