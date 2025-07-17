@@ -122,17 +122,18 @@
                 app:layout_constraintTop_toBottomOf="@+id/descTv"
                 app:layout_constraintVertical_bias="0.0" />
 
-            <Button
-                android:id="@+id/button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/connectBtn"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+            <ImageButton
+                android:id="@+id/deleteBtn2"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linkedinBtn" />
+                app:layout_constraintTop_toBottomOf="@+id/linkedinBtn"
+                app:srcCompat="@drawable/ic_delete"
+                tools:ignore="SpeakableTextPresentCheck" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

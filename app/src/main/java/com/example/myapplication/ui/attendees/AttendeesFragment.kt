@@ -58,6 +58,7 @@ class AttendeesFragment : Fragment() {
     // Open attendee in detail page passing data
     private fun openAttendeeDetailFragment(user: User) {
         val bundle = Bundle().apply {
+            putString("id", user.id)
             putString("name", user.name)
             putString("company", user.company)
             putString("position", user.position)
