@@ -49,6 +49,13 @@ class UpdateUserFragment : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentUpdateUserBinding.inflate(inflater, container, false)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : androidx.activity.OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                }
+            }
+        )
+
         val storedEmail = getStoredEmail()
         binding.etEmailEt.setText(storedEmail)
 
@@ -196,7 +203,7 @@ class UpdateUserFragment : Fragment() {
     }
 
     private fun goToMain() {
-        findNavController().navigate(R.id.action_update_userFragment_to_homeFragment)
+        findNavController().navigate(R.id.action_update_userFragment_to_loginFragment)
     }
 
     override fun onDestroyView() {

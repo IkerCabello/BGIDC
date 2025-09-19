@@ -29,6 +29,13 @@ android {
             )
         }
     }
+
+    packaging {
+        resources {
+            excludes.addAll(listOf("META-INF/NOTICE.md", "META-INF/LICENSE.md"))
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -50,6 +57,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.lifecycle.livedata.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation (libs.kotlinx.coroutines.android)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.androidx.legacy.support.v4)
@@ -77,4 +85,14 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation (libs.gson.v2110)
+
+    // JavaMail para Android
+    implementation (libs.android.mail)
+    implementation (libs.android.activation)
+
+    // EncryptedSharedPreferences
+    implementation (libs.androidx.security.crypto)
+
 }

@@ -1,11 +1,15 @@
 package com.example.myapplication.ui.schedule
 
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.myapplication.ui.model.Session
+import com.google.gson.Gson
 
-class SharedViewModel : ViewModel() {
+class SharedViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _selectedSessions = MutableLiveData<MutableList<Session>>(mutableListOf())
     val selectedSessions: LiveData<MutableList<Session>> = _selectedSessions

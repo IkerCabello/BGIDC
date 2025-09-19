@@ -12,10 +12,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
+import com.example.myapplication.dao.SmtpConfigStore
+import com.example.myapplication.dao.SmtpSender
 import com.example.myapplication.dao.sendSecurityEmail
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
 class LoginFragment : Fragment() {
 
@@ -29,12 +33,20 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : androidx.activity.OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                }
+            }
+        )
+
         // Get if its the first login of the user
         val newLogin = arguments?.getBoolean("newLogin", false) ?: false
 
         val etEmail = view.findViewById<EditText>(R.id.etUseret)
         val etPassword = view.findViewById<EditText>(R.id.etPasswordet)
         val btnLogin = view.findViewById<Button>(R.id.btnLogin)
+        val tvRegister = view.findViewById<TextView>(R.id.tvGoToRegister)
         val check = view.findViewById<TextView>(R.id.checkTv)
 
         if(newLogin) {
@@ -56,6 +68,12 @@ class LoginFragment : Fragment() {
                 val pass = etPassword.text.toString().trim()
                 loginUser(email, pass)
             }
+        }
+
+        tvRegister.setOnClickListener {
+
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+
         }
 
         return view
@@ -132,8 +150,26 @@ class LoginFragment : Fragment() {
 
                         // Send security email with 3 failed attempts
                         if (failedAttempts >= 3) {
-                            sendSecurityEmail(email)
-                            Toast.makeText(requireContext(), "Security alert sent to your email", Toast.LENGTH_LONG).show()
+                            lifecycleScope.launch {
+                                try {
+                                    val smtpUser = SmtpConfigStore.SMTP_USER
+                                    val smtpPass = SmtpConfigStore.SMTP_PASS
+                                    val smtpFrom = try {
+                                        SmtpConfigStore.SMTP_FROM_DEFAULT
+                                    } catch (e: Exception) {
+                                        "office@idvkm.com"
+                                    }
+
+                                    val sender = SmtpSender(requireContext(), smtpUser, smtpPass
+                                    )
+                                    sender.sendWarningEmail(
+                                        from = smtpFrom,
+                                        to = email
+                                    )
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                            }
                             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
                         }
                     }

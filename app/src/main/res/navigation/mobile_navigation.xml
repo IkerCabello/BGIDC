@@ -41,8 +41,8 @@
         android:label="@string/update"
         tools:layout="@layout/fragment_update_user" />
         <action
-            android:id="@+id/action_update_userFragment_to_homeFragment"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/action_update_userFragment_to_loginFragment"
+            app:destination="@id/navigation_login" />
 
     <fragment
         android:id="@+id/navigation_home"

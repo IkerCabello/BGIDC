@@ -68,8 +68,9 @@ class SettingsFragment : Fragment() {
             .addOnSuccessListener { document ->
                 if (document != null && document.exists()) {
                     userType = document.getString("user_type")
-                    val isVisible = document.getBoolean("visible") ?: false
-                    currentVisibleValue = isVisible
+                    val isVisible = document.getString("visible")
+
+                    currentVisibleValue = isVisible.equals("true")
 
                     when (userType) {
                         "speaker", "admin" -> {
@@ -77,7 +78,7 @@ class SettingsFragment : Fragment() {
                             visibleSwitch.isEnabled = false
                         }
                         "attendee" -> {
-                            visibleSwitch.isChecked = isVisible
+                            visibleSwitch.isChecked = currentVisibleValue
                             visibleSwitch.isEnabled = true
                         }
                         else -> {
