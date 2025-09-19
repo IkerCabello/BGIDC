@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
+import com.example.myapplication.dao.SmtpConfigStore
+import com.example.myapplication.dao.SmtpSender
 import com.example.myapplication.dao.sendPasswordResetEmail
 import com.example.myapplication.databinding.FragmentEditProfileBinding
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.coroutines.launch
 
 class EditProfileFragment : Fragment() {
 
@@ -117,7 +121,27 @@ class EditProfileFragment : Fragment() {
     private fun changePassword() {
         val email = binding.cEmail.text.toString()
         val code = generateCode()
-        sendPasswordResetEmail(email, code)
+        lifecycleScope.launch {
+            try {
+                val smtpUser = SmtpConfigStore.SMTP_USER
+                val smtpPass = SmtpConfigStore.SMTP_PASS
+                val smtpFrom = try {
+                    SmtpConfigStore.SMTP_FROM_DEFAULT
+                } catch (e: Exception) {
+                    "office@idvkm.com"
+                }
+
+                val sender = SmtpSender(requireContext(), smtpUser, smtpPass
+                )
+                sender.sendChangePasswordEmail(
+                    from = smtpFrom,
+                    to = email,
+                    cCode = code
+                )
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
     }
 
     private fun generateCode(): String {

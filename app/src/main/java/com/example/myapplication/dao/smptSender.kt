@@ -83,7 +83,7 @@ class SmtpSender(
 
     // Plantilla 3: Warning (suspicious activity)
 
-    suspend fun sendChangePasswordEmail(from: String, to: String) = withContext(Dispatchers.IO) {
+    suspend fun sendChangePasswordEmail(from: String, to: String, cCode: String) = withContext(Dispatchers.IO) {
         val session = createSession()
         val msg = MimeMessage(session).apply {
             setFrom(InternetAddress(from))
@@ -93,6 +93,7 @@ class SmtpSender(
                 Do not share this with anyone
 
                 Here is your verification code in order to change the password:
+                $cCode
                 
             """.trimIndent())
         }
