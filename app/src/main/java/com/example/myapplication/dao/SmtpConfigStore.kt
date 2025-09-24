@@ -1,6 +1,5 @@
 package com.example.myapplication.dao
 
-import com.example.myapplication.BuildConfig
 
 object SmtpConfigStore {
 
