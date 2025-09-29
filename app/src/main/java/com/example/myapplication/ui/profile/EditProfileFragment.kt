@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.myapplication.R
 import com.example.myapplication.dao.SmtpConfigStore
 import com.example.myapplication.dao.SmtpSender
-import com.example.myapplication.dao.sendPasswordResetEmail
 import com.example.myapplication.databinding.FragmentEditProfileBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
@@ -22,6 +22,7 @@ class EditProfileFragment : Fragment() {
 
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
+    private val changePasswordViewModel: ChangePasswordViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -107,11 +108,11 @@ class EditProfileFragment : Fragment() {
                         db.collection("users").document(documentId)
                             .update(updateMap)
                             .addOnSuccessListener {
-                                Toast.makeText(requireContext(), "Perfil actualizado", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Profile updated", Toast.LENGTH_SHORT).show()
                                 findNavController().navigate(R.id.navigation_profile)
                             }
                             .addOnFailureListener {
-                                Toast.makeText(requireContext(), "Error al actualizar", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(requireContext(), "Error updating", Toast.LENGTH_SHORT).show()
                             }
                     }
                 }
@@ -121,6 +122,13 @@ class EditProfileFragment : Fragment() {
     private fun changePassword() {
         val email = binding.cEmail.text.toString()
         val code = generateCode()
+        val sharedPref = requireContext().getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        val currentUserId = sharedPref.getString("user_id", null)
+
+        changePasswordViewModel.setCode(code)
+        changePasswordViewModel.setEmail(email)
+        changePasswordViewModel.setUserId(currentUserId.toString())
+
         lifecycleScope.launch {
             try {
                 val smtpUser = SmtpConfigStore.SMTP_USER
@@ -138,6 +146,8 @@ class EditProfileFragment : Fragment() {
                     to = email,
                     cCode = code
                 )
+
+                findNavController().navigate(R.id.action_editProfileFragment_to_verifyCodeFragment)
             } catch (e: Exception) {
                 e.printStackTrace()
             }

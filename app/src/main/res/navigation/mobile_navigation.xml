@@ -160,6 +160,9 @@
         <action
             android:id="@+id/action_editProfileFragment_to_loginFragment"
             app:destination="@id/navigation_login" />
+        <action
+            android:id="@+id/action_editProfileFragment_to_verifyCodeFragment"
+            app:destination="@id/navigation_verify_code" />
 
     <fragment
         android:id="@+id/navigation_admin"
@@ -224,5 +227,25 @@
         android:name="com.example.myapplication.ui.profile.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/navigation_verify_code"
+        android:name="com.example.myapplication.ui.profile.VerifyCodeFragment"
+        android:label="Verify code"
+        tools:layout="@layout/fragment_verify_code" />
+        <action
+            android:id="@+id/action_verifyCodeFragment_to_changePasswordFragment"
+            app:destination="@id/navigation_change_password" />
+
+    <fragment
+        android:id="@+id/navigation_change_password"
+        android:name="com.example.myapplication.ui.profile.ChangePasswordFragment"
+        android:label="Change password"
+        tools:layout="@layout/fragment_change_password" />
+        <action
+            android:id="@+id/action_ChangePasswordFragment_to_loginFragment"
+            app:destination="@id/navigation_login" />
+
+
 
 </navigation>

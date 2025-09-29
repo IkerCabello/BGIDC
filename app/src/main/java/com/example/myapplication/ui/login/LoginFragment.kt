@@ -17,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.dao.SmtpConfigStore
 import com.example.myapplication.dao.SmtpSender
-import com.example.myapplication.dao.sendSecurityEmail
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 

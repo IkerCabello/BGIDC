@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.myapplication.R
 import com.example.myapplication.dao.SmtpConfigStore
 import com.example.myapplication.dao.SmtpSender
-import com.example.myapplication.dao.sendEmail
 import com.example.myapplication.databinding.FragmentRegisterBinding
 import kotlinx.coroutines.launch
 

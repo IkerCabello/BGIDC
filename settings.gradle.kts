@@ -1,26 +1,36 @@
 pluginManagement {
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            when (requested.id.id) {
+                "org.jetbrains.kotlin.multiplatform",
+                "org.jetbrains.kotlin.jvm",
+                "org.jetbrains.kotlin.plugin.serialization" -> {
+                    useVersion("1.9.20") // ajusta si usas otra Kotlin
+                }
+                "com.android.application",
+                "com.android.library" -> {
+                    // Android plugin viene de google()
+                }
+                "com.google.gms.google-services" -> {
+                    useVersion("4.4.0") // versión del plugin google-services (ajusta si quieres)
+                }
             }
         }
-        mavenCentral()
-        gradlePluginPortal()
     }
 }
-dependencyResolutionManagement {
 
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
     }
-
 }
 
-rootProject.name = "My Application"
+rootProject.name = "BGIDC"
 include(":app")
- 
