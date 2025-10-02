@@ -1,13 +1,12 @@
 package com.example.myapplication.ui.login
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,6 +14,7 @@ import com.example.myapplication.R
 import com.example.myapplication.dao.SmtpConfigStore
 import com.example.myapplication.dao.SmtpSender
 import com.example.myapplication.databinding.FragmentRegisterBinding
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 
 class RegisterFragment : Fragment() {
@@ -22,110 +22,117 @@ class RegisterFragment : Fragment() {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
+    private val db by lazy { FirebaseFirestore.getInstance() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
+        val root: View = binding.root
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : androidx.activity.OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    // Disable back during registration flow (or implement behavior)
                 }
             }
         )
 
-        //We call the function to send credentials
+        binding.tvGoToContact.visibility = View.GONE
 
         binding.btnRegister.setOnClickListener {
             val email = binding.etEmailet.text.toString().trim()
-            if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(requireContext(), "Email address not valid", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-                val username = generateRandomUsername()
-                val password = generateRandomPassword()
-
-                // SmtpSender (coroutine)
-                lifecycleScope.launch {
-                    try {
-                        val smtpUser = SmtpConfigStore.SMTP_USER
-                        val smtpPass = SmtpConfigStore.SMTP_PASS
-                        val smtpFrom = try {
-                            SmtpConfigStore.SMTP_FROM_DEFAULT
-                        } catch (e: Exception) {
-                            "office@idvkm.com"
-                        }
-
-                        val sender = SmtpSender(requireContext(), smtpUser.toString(),
-                            smtpPass.toString()
-                        )
-
-                        // Llamada a la plantilla Welcome
-                        sender.sendWelcomeEmail(
-                            from = smtpFrom,
-                            to = email,
-                            tempUser = username,
-                            tempPassword = password
-                        )
-
-                        // guardamos credenciales localmente y navegamos
-                        saveCredentialsToSharedPreferences(email, username, password)
-                        goToLogin()
-
-                        Toast.makeText(context, "Credentials sent to your email", Toast.LENGTH_LONG).show()
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                        // Dependiendo de tu UX, podrías no guardar ni navegar si falla el envío.
-                        // Aquí mostramos error pero igual guardamos/navegamos si quieres:
-                        Toast.makeText(context, "Error sending email: ${e.message}", Toast.LENGTH_LONG).show()
-                    }
-                }
-
-            } else {
-                Toast.makeText(context, "Email address not valid", Toast.LENGTH_SHORT).show()
+            // Start the check flow
+            lifecycleScope.launch {
+                checkPendingOrExistingUser(email)
             }
         }
 
         binding.tvGoToLogin.setOnClickListener {
-
             val bundle = Bundle().apply {
                 putBoolean("newLogin", false)
             }
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment, bundle)
-
         }
 
-        return binding.root
+        return root
     }
 
-    private fun generateRandomUsername(): String {
-        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-        return (1..8)
-            .map { chars.random() }
-            .joinToString("")
+    private fun checkPendingOrExistingUser(email: String) {
+        // 1) Check pending_users
+        db.collection("pending_users").whereEqualTo("email", email).get()
+            .addOnSuccessListener { pendingSnapshot ->
+                if (!pendingSnapshot.isEmpty) {
+                    // Email exists in pending_users -> send welcome email and navigate to UpdateUserFragment
+                    sendWelcomeAndNavigate(email)
+                } else {
+                    // 2) Not in pending_users -> check users
+                    db.collection("users").whereEqualTo("email", email).get()
+                        .addOnSuccessListener { usersSnapshot ->
+                            if (!usersSnapshot.isEmpty) {
+                                // Email already registered
+                                Toast.makeText(requireContext(), "This email is already registered.", Toast.LENGTH_LONG).show()
+                            } else {
+                                // Email not found anywhere
+                                Toast.makeText(
+                                    requireContext(),
+                                    "The email you entered does not exist in our records. Please check it, or our marketing team may not have added it yet. Please wait or contact support.",
+                                    Toast.LENGTH_LONG
+                                ).show()
+                                binding.tvGoToContact.visibility = View.VISIBLE
+                            }
+                        }
+                        .addOnFailureListener { e ->
+                            e.printStackTrace()
+                            Toast.makeText(requireContext(), "Error checking users: ${e.message}", Toast.LENGTH_LONG).show()
+                        }
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error checking pending users: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
-    private fun generateRandomPassword(): String {
-        val chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#\$%^&*"
-        return (1..12)
-            .map { chars.random() }
-            .joinToString("")
-    }
+    private fun sendWelcomeAndNavigate(email: String) {
+        // Send welcome email (coroutine to keep UI responsive)
+        lifecycleScope.launch {
+            try {
+                val smtpUser = SmtpConfigStore.SMTP_USER
+                val smtpPass = SmtpConfigStore.SMTP_PASS
+                val smtpFrom = try {
+                    SmtpConfigStore.SMTP_FROM_DEFAULT
+                } catch (e: Exception) {
+                    "office@idvkm.com"
+                }
 
-    private fun saveCredentialsToSharedPreferences(email: String, username: String, password: String) {
-        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("user_credentials", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.putString("email", email)
-        editor.putString("username", username)
-        editor.putString("password", password)
-        editor.apply()
-    }
+                val sender = SmtpSender(requireContext(), smtpUser.toString(), smtpPass.toString())
 
-    private fun goToLogin() {
+                // We removed temporary credentials generation, so pass empty strings (adjust if your SmtpSender requires other params)
+                sender.sendWelcomeEmail(
+                    from = smtpFrom,
+                    to = email
+                )
 
-        val bundle = Bundle().apply {
-            putBoolean("newLogin", true)
+                // Navigate to UpdateUserFragment, passing the email so it can pre-fill the form
+                val bundle = bundleOf("email" to email)
+                findNavController().navigate(R.id.action_registerFragment_to_updateUserFragment, bundle)
+
+                Toast.makeText(requireContext(), "Welcome email sent. Please complete your profile.", Toast.LENGTH_LONG).show()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error sending welcome email: ${e.message}", Toast.LENGTH_LONG).show()
+                // Still navigate to UpdateUserFragment, or decide to block navigation until email is sent
+                val bundle = bundleOf("email" to email)
+                findNavController().navigate(R.id.action_registerFragment_to_updateUserFragment, bundle)
+            }
         }
-        findNavController().navigate(R.id.action_registerFragment_to_loginFragment, bundle)
     }
 
     override fun onDestroyView() {

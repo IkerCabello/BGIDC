@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.cloudinary.utils.ObjectUtils
@@ -27,13 +28,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
-import androidx.core.content.edit
 
 class UpdateUserFragment : Fragment() {
 
     private var _binding: FragmentUpdateUserBinding? = null
     private val binding get() = _binding!!
     private var imageUri: Uri? = null
+
+    // Will hold the Firestore document id of the pending_users doc (if found)
+    private var pendingDocId: String? = null
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
@@ -46,18 +49,30 @@ class UpdateUserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         _binding = FragmentUpdateUserBinding.inflate(inflater, container, false)
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
             object : androidx.activity.OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
+                    // disable back during this flow (or implement desired behavior)
                 }
             }
         )
 
-        val storedEmail = getStoredEmail()
-        binding.etEmailEt.setText(storedEmail)
+        // Email must come from RegisterFragment
+        val emailArg = arguments?.getString("email")
+        if (emailArg.isNullOrBlank()) {
+            Toast.makeText(requireContext(), "No email provided from register", Toast.LENGTH_LONG).show()
+        } else {
+            binding.etEmailEt.setText(emailArg)
+            binding.etEmailEt.isEnabled = false // prevent editing
+            prefillFromPendingUser(emailArg)
+        }
+
+        // Try to load pending_users data and prefill fields
+        if (!emailArg.isNullOrBlank()) {
+            prefillFromPendingUser(emailArg)
+        }
 
         val userTypeAdapter = ArrayAdapter.createFromResource(
             requireContext(),
@@ -74,36 +89,72 @@ class UpdateUserFragment : Fragment() {
         }
 
         binding.btnUpdate.setOnClickListener {
-            val newName = binding.etNameEt.text.toString()
-            val newEmail = binding.etEmailEt.text.toString()
-            val newPassword = binding.etPassEt.text.toString()
-            val newCompany = binding.etCompanyEt.text.toString()
-            val newPosition = binding.etPositionEt.text.toString()
+            val newName = binding.etNameEt.text.toString().trim()
+            val newEmail = binding.etEmailEt.text.toString().trim()
+            val newPassword = binding.etPassEt.text?.toString().orEmpty()
+            val newCompany = binding.etCompanyEt.text.toString().trim()
+            val newPosition = binding.etPositionEt.text.toString().trim()
             val newUserType = binding.spinnerUType.selectedItem.toString()
-            val newAbout = binding.etAboutEt.text.toString()
+            val newAbout = binding.etAboutEt.text.toString().trim()
 
+            // Minimal validation: name and password required (keeps original behavior)
             if (newName.isBlank() || newPassword.isBlank()) {
                 Toast.makeText(context, "All fields are required", Toast.LENGTH_SHORT).show()
             } else {
+                binding.btnUpdate.isEnabled = false
                 uploadImageToCloudinary { imageUrl ->
                     if (imageUrl != null || imageUri == null) {
                         createUserInFirestore(
-                            newName, newEmail, newPassword, newCompany, newPosition, newUserType, imageUrl ?: "", newAbout)
+                            newName, newEmail, newPassword, newCompany, newPosition, newUserType, imageUrl ?: "", newAbout
+                        )
                     } else {
+                        binding.btnUpdate.isEnabled = true
                         Toast.makeText(context, "Image upload failed", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
+
         return binding.root
     }
 
-    private fun getStoredEmail(): String? {
-        val sharedPref: SharedPreferences = requireContext().getSharedPreferences("user_credentials", Context.MODE_PRIVATE)
-        return sharedPref.getString("email", null)
+    private fun prefillFromPendingUser(email: String) {
+        val db = Firebase.firestore
+        db.collection("pending_users").whereEqualTo("email", email).get()
+            .addOnSuccessListener { snap ->
+                if (!snap.isEmpty) {
+                    val doc = snap.documents[0]
+                    pendingDocId = doc.id
+                    // Read fields safely (may be absent)
+                    val name = doc.getString("name") ?: ""
+                    val position = doc.getString("position") ?: ""
+                    val company = doc.getString("company") ?: ""
+
+                    // Pre-fill the UI (do not overwrite if user already typed something)
+                    if (binding.etNameEt.text.isNullOrBlank()) binding.etNameEt.setText(name)
+                    if (binding.etPositionEt.text.isNullOrBlank()) binding.etPositionEt.setText(position)
+                    if (binding.etCompanyEt.text.isNullOrBlank()) binding.etCompanyEt.setText(company)
+                } else {
+                    // No pending user found: optional UX feedback
+                    // Toast.makeText(requireContext(), "No pending data found for this email", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { e ->
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Error fetching pending user: ${e.message}", Toast.LENGTH_LONG).show()
+            }
     }
 
-    private fun createUserInFirestore(name: String, email:String, password: String, company: String, position: String, usertype: String, profileImg: String, about: String) {
+    private fun createUserInFirestore(
+        name: String,
+        email: String,
+        password: String,
+        company: String,
+        position: String,
+        usertype: String,
+        profileImg: String,
+        about: String
+    ) {
         val db = Firebase.firestore
         val baseId = name.lowercase().replace(" ", "")
 
@@ -139,15 +190,44 @@ class UpdateUserFragment : Fragment() {
                 db.collection("users").document(newId)
                     .set(updatedUser)
                     .addOnSuccessListener {
-                        // Clear SharedPrefs data
-                        clearSharedPreferences()
-
-                        // We save the last login
-                        saveLoginData(userId)
-
-                        Toast.makeText(context, "User created successfully", Toast.LENGTH_SHORT).show()
-                        goToMain()
+                        // If there was a pending_users doc, delete it
+                        if (!pendingDocId.isNullOrBlank()) {
+                            db.collection("pending_users").document(pendingDocId!!)
+                                .delete()
+                                .addOnSuccessListener {
+                                    // Clear SharedPrefs data
+                                    clearSharedPreferences()
+                                    // Save login & navigate
+                                    saveLoginData(userId)
+                                    Toast.makeText(context, "User created successfully", Toast.LENGTH_SHORT).show()
+                                    goToMain()
+                                }
+                                .addOnFailureListener { eDel ->
+                                    eDel.printStackTrace()
+                                    // Even if deletion fails, proceed (but inform)
+                                    clearSharedPreferences()
+                                    saveLoginData(userId)
+                                    Toast.makeText(context, "User created but failed to delete pending record: ${eDel.message}", Toast.LENGTH_LONG).show()
+                                    goToMain()
+                                }
+                        } else {
+                            // No pending doc to delete: just finish
+                            clearSharedPreferences()
+                            saveLoginData(userId)
+                            Toast.makeText(context, "User created successfully", Toast.LENGTH_SHORT).show()
+                            goToMain()
+                        }
                     }
+                    .addOnFailureListener { eSet ->
+                        binding.btnUpdate.isEnabled = true
+                        eSet.printStackTrace()
+                        Toast.makeText(context, "Error creating user: ${eSet.message}", Toast.LENGTH_LONG).show()
+                    }
+            }
+            .addOnFailureListener { e ->
+                binding.btnUpdate.isEnabled = true
+                e.printStackTrace()
+                Toast.makeText(context, "Error reading users collection: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
 
@@ -203,6 +283,7 @@ class UpdateUserFragment : Fragment() {
     }
 
     private fun goToMain() {
+        // After finishing, redirect to login fragment (you requested that)
         findNavController().navigate(R.id.action_update_userFragment_to_loginFragment)
     }
 

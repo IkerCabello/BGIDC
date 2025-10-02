@@ -38,9 +38,9 @@ class SmtpSender(
         Transport.send(message)
     }
 
-    // Plantilla 1: Welcome (temporal user + password)
+    // Plantilla 1: Welcome
 
-    suspend fun sendWelcomeEmail(from: String, to: String, tempUser: String, tempPassword: String) = withContext(Dispatchers.IO) {
+    suspend fun sendWelcomeEmail(from: String, to: String) = withContext(Dispatchers.IO) {
         val session = createSession()
         val msg = MimeMessage(session).apply {
             setFrom(InternetAddress(from))
@@ -48,13 +48,11 @@ class SmtpSender(
             subject = "Welcome"
 
             setText("""
-                Welcome
+                Welcome to the Bulgarian Identity Conference 2025!
 
-                Your temporal user name is: $tempUser
+                We are very happy that you are attending the conference, and we hope you enjoy it.
 
-                Your temporal password is: $tempPassword
-
-                In order to finish with the registration, login in the app and add your personal information.
+                Thank you for your trust in us.
             """.trimIndent())
         }
         sendMime(msg)

@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_registerFragment_to_homeFragment"
             app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_registerFragment_to_updateUserFragment"
+            app:destination="@id/navigation_update_user" />
 
     <fragment
         android:id="@+id/navigation_update_user"
