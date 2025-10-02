@@ -26,11 +26,10 @@ class PartnersFragment : Fragment() {
 
         val partnersList = listOf(
             Partner("One Identity", R.drawable.oneidentity),
-            Partner("IdStory", R.drawable.idstory),
-            Partner("Ping Identity", R.drawable.pingidentity),
-            Partner("Amatas", R.drawable.amatas),
-            Partner("German-Bulgarian Chamber of Commerce and Industry", R.drawable.ahk),
-            Partner("Dutch-Bulgarian Chamber of Commerce", R.drawable.ducc)
+            Partner("Nexis", R.drawable.nexis),
+            Partner("EY", R.drawable.ey_logo),
+            Partner("Heimdal", R.drawable.heimdal),
+            Partner("Belden | Macmon", R.drawable.belden_logo_macmon)
         )
 
         adapter = PartnersAdapter(partnersList)
