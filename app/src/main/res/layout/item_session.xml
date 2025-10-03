@@ -44,18 +44,6 @@
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnAddEvent"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Add"
-            android:padding="8dp"
-            android:src="@drawable/ic_add" />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

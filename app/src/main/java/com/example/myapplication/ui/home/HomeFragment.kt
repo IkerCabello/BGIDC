@@ -16,7 +16,6 @@ import com.example.myapplication.dao.FirebaseCalls
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.ui.model.Session
 import com.example.myapplication.ui.schedule.SessionsAdapter
-import com.example.myapplication.ui.schedule.SharedViewModel
 
 class HomeFragment : Fragment() {
 
@@ -24,9 +23,9 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var recyclerView: RecyclerView
     private lateinit var sessionsAdapter: SessionsAdapter
-    private val sharedViewModel: SharedViewModel by activityViewModels()
     private val firebaseCalls = FirebaseCalls()
 
+    private var allSessions: List<Session> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,17 +43,11 @@ class HomeFragment : Fragment() {
         recyclerView = binding.rvHomeSessions
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
 
-        sessionsAdapter = SessionsAdapter(emptyList(), { selectedSession ->
-            openSessionDetailFragment(selectedSession) //Open session in detail page
-        }, {
-            //
-        })
+        sessionsAdapter = SessionsAdapter(
+            emptyList(),
+            { selectedSession -> openSessionDetailFragment(selectedSession) }
+        )
         recyclerView.adapter = sessionsAdapter
-
-        // Observe sessions in the SharedViewModel
-        sharedViewModel.sessionsList.observe(viewLifecycleOwner) { sessions ->
-            sessionsAdapter.updateList(sessions)  // Update the RecyclerView with the sessions
-        }
 
         // Navigate between pages
         binding.locationBtn.setOnClickListener {
@@ -80,7 +73,8 @@ class HomeFragment : Fragment() {
     private fun loadSessions() {
         firebaseCalls.getAllSessions(
             onSuccess = { sessions ->
-                sharedViewModel.setSessions(sessions)
+                allSessions = sessions.sortedBy { it.start_time?.toDate() }
+                sessionsAdapter.updateList(allSessions)
             },
             onFailure = { exception ->
                 Log.e("AgendaFragment", "Error fetching sessions", exception)

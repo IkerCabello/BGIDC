@@ -61,7 +61,7 @@ class EditSessionFragment : Fragment() {
     }
 
     private fun setupRoomDropdown() {
-        val rooms = listOf("Room A1", "Room B1")
+        val rooms = listOf("Panel 1", "Panel 2", "Panel 3")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, rooms)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.editRoomSpinner.adapter = adapter
@@ -71,7 +71,7 @@ class EditSessionFragment : Fragment() {
         binding.editStartTime.setOnClickListener {
             showTimePicker { hour, minute ->
                 val cal = Calendar.getInstance()
-                cal.set(2025, Calendar.OCTOBER, 10, hour, minute, 0)
+                cal.set(2025, Calendar.OCTOBER, 16, hour, minute, 0)
                 selectedStartTime = Timestamp(cal.time)
                 binding.editStartTime.setText(formatTime(cal.time))
             }
@@ -80,7 +80,7 @@ class EditSessionFragment : Fragment() {
         binding.editEndTime.setOnClickListener {
             showTimePicker { hour, minute ->
                 val cal = Calendar.getInstance()
-                cal.set(2025, Calendar.OCTOBER, 10, hour, minute, 0)
+                cal.set(2025, Calendar.OCTOBER, 16, hour, minute, 0)
                 selectedEndTime = Timestamp(cal.time)
                 binding.editEndTime.setText(formatTime(cal.time))
             }
@@ -131,7 +131,7 @@ class EditSessionFragment : Fragment() {
                     if (session != null) {
                         binding.editTitle.setText(session.title)
                         binding.editDescription.setText(session.description)
-                        binding.editRoomSpinner.setSelection(if (session.room == "Room A1") 0 else 1)
+                        binding.editRoomSpinner.setSelection(if (session.room == "Panel 1") 0 else 1)
 
                         session.start_time?.let {
                             selectedStartTime = it

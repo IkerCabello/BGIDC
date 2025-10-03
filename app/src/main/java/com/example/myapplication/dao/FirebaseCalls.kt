@@ -143,13 +143,15 @@ class FirebaseCalls {
                         completedFetches++
 
                         if (completedFetches == sessionFetchCount) {
-                            onSuccess(sessions)
+
+                            val sortedSessions = sessions.sortedBy { it.start_time?.toDate() }
+                            onSuccess(sortedSessions)
                         }
                     }
                 }
 
                 if (result.isEmpty) {
-                    onSuccess(sessions)
+                    onSuccess(emptyList())
                 }
             }
             .addOnFailureListener { exception ->

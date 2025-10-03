@@ -61,6 +61,10 @@ class RegisterFragment : Fragment() {
             findNavController().navigate(R.id.action_registerFragment_to_loginFragment, bundle)
         }
 
+        binding.tvGoToContact.setOnClickListener {
+            findNavController().navigate(R.id.action_registerFragment_to_ContactFragment)
+        }
+
         return root
     }
 
@@ -80,11 +84,7 @@ class RegisterFragment : Fragment() {
                                 Toast.makeText(requireContext(), "This email is already registered.", Toast.LENGTH_LONG).show()
                             } else {
                                 // Email not found anywhere
-                                Toast.makeText(
-                                    requireContext(),
-                                    "The email you entered does not exist in our records. Please check it, or our marketing team may not have added it yet. Please wait or contact support.",
-                                    Toast.LENGTH_LONG
-                                ).show()
+                                binding.tvError.visibility = View.VISIBLE
                                 binding.tvGoToContact.visibility = View.VISIBLE
                             }
                         }

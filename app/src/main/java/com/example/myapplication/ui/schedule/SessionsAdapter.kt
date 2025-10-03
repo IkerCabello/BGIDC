@@ -13,8 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 class SessionsAdapter(private var sessionsList: List<Session>,
-                      private val onItemClick: (Session) -> Unit,
-                      private val onAddSessionClick: (Session) -> Unit
+                      private val onItemClick: (Session) -> Unit
 ) : RecyclerView.Adapter<SessionsAdapter.SessionViewHolder>() {
 
     class SessionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -22,7 +21,6 @@ class SessionsAdapter(private var sessionsList: List<Session>,
         val tvTime: TextView = itemView.findViewById(R.id.tvTime)
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvRoom: TextView = itemView.findViewById(R.id.tvRoom)
-        val btnAddEvent: AppCompatImageButton = itemView.findViewById(R.id.btnAddEvent)
 
     }
 
@@ -45,10 +43,6 @@ class SessionsAdapter(private var sessionsList: List<Session>,
 
         holder.itemView.setOnClickListener {
             onItemClick(session)
-        }
-
-        holder.btnAddEvent.setOnClickListener {
-            onAddSessionClick(session)
         }
     }
 

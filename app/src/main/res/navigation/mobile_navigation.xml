@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_registerFragment_to_updateUserFragment"
             app:destination="@id/navigation_update_user" />
+        <action
+            android:id="@+id/action_registerFragment_to_ContactFragment"
+            app:destination="@id/navigation_contact" />
 
     <fragment
         android:id="@+id/navigation_update_user"
@@ -46,6 +49,15 @@
         <action
             android:id="@+id/action_update_userFragment_to_loginFragment"
             app:destination="@id/navigation_login" />
+
+    <fragment
+        android:id="@+id/navigation_contact"
+        android:name="com.example.myapplication.ui.login.ContactFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_contact"/>
+        <action
+            android:id="@+id/action_ContactFragment_to_registerFragment"
+            app:destination="@id/navigation_register" />
 
     <fragment
         android:id="@+id/navigation_home"
@@ -67,12 +79,6 @@
         <action
             android:id="@+id/action_homeFragment_to_attendeesFragment"
             app:destination="@id/navigation_attendees" />
-
-    <fragment
-        android:id="@+id/navigation_schedule"
-        android:name="com.example.myapplication.ui.schedule.ScheduleFragment"
-        android:label="@string/title_schedule"
-        tools:layout="@layout/fragment_schedule" />
 
     <fragment
         android:id="@+id/navigation_profile"
@@ -139,15 +145,6 @@
         android:name="com.example.myapplication.ui.schedule.SessionDetailFragment"
         android:label="@string/title_sessions"
         tools:layout="@layout/fragment_session_detail" />
-
-    <fragment
-        android:id="@+id/navigation_my_schedule"
-        android:name="com.example.myapplication.ui.schedule.MyScheduleFragment"
-        android:label="@string/title_sessions"
-        tools:layout="@layout/fragment_my_schedule" />
-        <action
-            android:id="@+id/action_myScheduleFragment_to_sessionDetailFragment"
-            app:destination="@id/navigation_session_detail" />
 
     <fragment
         android:id="@+id/navigation_partners"

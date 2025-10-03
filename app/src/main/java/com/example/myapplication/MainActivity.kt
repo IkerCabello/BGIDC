@@ -23,11 +23,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val prefs = getSharedPreferences("user_prefs", MODE_PRIVATE)
-        val lastLogin = prefs.getLong("lastLoginTime", 0L)
         val isLogged = prefs.getBoolean("isLoggedIn", false)
-        val userId = prefs.getString("userId", "")
-        val currentTime = System.currentTimeMillis()
-        val maxAllowedTime = 3 * 24 * 60 * 60 * 1000L
 
         val navView: BottomNavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
@@ -46,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home,
-                R.id.navigation_schedule,
+                R.id.navigation_sessions,
                 R.id.navigation_attendees,
                 R.id.navigation_profile
             )
@@ -54,7 +50,6 @@ class MainActivity : AppCompatActivity() {
 
         navView.setupWithNavController(navController)
 
-        // 🔒 Escucha cambios de destino para ocultar el BottomNavigationView
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.navigation_login,

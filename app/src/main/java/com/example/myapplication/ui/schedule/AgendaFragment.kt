@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,9 +22,11 @@ class AgendaFragment : Fragment() {
     private lateinit var btnRoom1: Button
     private lateinit var btnRoom2: Button
     private lateinit var btnRoom3: Button
-    private val sharedViewModel: SharedViewModel by activityViewModels()
+    private lateinit var btnRoom4: Button
     private lateinit var sessionsAdapter: SessionsAdapter
     private val firebaseCalls = FirebaseCalls()
+
+    private var allSessions: List<Session> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,34 +40,20 @@ class AgendaFragment : Fragment() {
         btnRoom1 = view.findViewById(R.id.btn_room1)
         btnRoom2 = view.findViewById(R.id.btn_room2)
         btnRoom3 = view.findViewById(R.id.btn_room3)
+        btnRoom4 = view.findViewById(R.id.btn_room4)
 
-        sessionsAdapter = SessionsAdapter(emptyList(), { selectedSession ->
-            openSessionDetailFragment(selectedSession)
-        }, { session ->
-            sharedViewModel.addSession(session)
-        })
+        sessionsAdapter = SessionsAdapter(
+            emptyList(),
+            { selectedSession -> openSessionDetailFragment(selectedSession) }
+        )
         recyclerView.adapter = sessionsAdapter
-
-        sharedViewModel.sessionsList.observe(viewLifecycleOwner) { sessions ->
-            sessionsAdapter.updateList(sessions)
-        }
 
         loadSessions()
 
-        // Button actions for filtering
-        btnRoom1.setOnClickListener {
-            filterSessions("Room A1")
-        }
-
-        btnRoom2.setOnClickListener {
-            filterSessions("Room B1")
-        }
-
-        btnRoom3.setOnClickListener {
-            val allSessions = sharedViewModel.sessionsList.value ?: emptyList()
-            val sortedSessions = allSessions.sortedBy { it.start_time?.toDate() } // Sorted by start_time
-            sessionsAdapter.updateList(sortedSessions)  // Update list
-        }
+        btnRoom1.setOnClickListener { filterSessions("Panel 1") }
+        btnRoom2.setOnClickListener { filterSessions("Panel 2") }
+        btnRoom3.setOnClickListener { filterSessions("Panel 3") }
+        btnRoom4.setOnClickListener { showAllSessions() }
 
         return view
     }
@@ -74,7 +61,8 @@ class AgendaFragment : Fragment() {
     private fun loadSessions() {
         firebaseCalls.getAllSessions(
             onSuccess = { sessions ->
-                sharedViewModel.setSessions(sessions)
+                allSessions = sessions.sortedBy { it.start_time?.toDate() }
+                sessionsAdapter.updateList(allSessions)
             },
             onFailure = { exception ->
                 Log.e("AgendaFragment", "Error fetching sessions", exception)
@@ -83,30 +71,25 @@ class AgendaFragment : Fragment() {
     }
 
     private fun filterSessions(room: String) {
-        val filteredSessions = sharedViewModel.sessionsList.value?.filter { it.room == room } ?: emptyList()
-        sessionsAdapter.updateList(filteredSessions)
+        val filtered = allSessions.filter { it.room == room }
+        val sorted = filtered.sortedBy { it.start_time?.toDate() }
+        sessionsAdapter.updateList(sorted)
+    }
+
+    private fun showAllSessions() {
+        val sorted = allSessions.sortedBy { it.start_time?.toDate() }
+        sessionsAdapter.updateList(sorted)
     }
 
     private fun openSessionDetailFragment(session: Session) {
-
         val timeFormatter = SimpleDateFormat("HH:mm", Locale.getDefault())
         val startTime = session.start_time?.toDate()?.let { timeFormatter.format(it) } ?: "N/A"
         val endTime = session.end_time?.toDate()?.let { timeFormatter.format(it) } ?: "N/A"
-
-        println("Session Title: ${session.title}")
-        println("Speakers in session: ${session.speakerDetails}")
-
-        session.speakerDetails.forEach { speaker ->
-            println("Speaker: ${speaker.name}, Profile Image: ${speaker.profile_img}")
-        }
 
         val speakerNames = ArrayList(session.speakerDetails.map { it.name ?: "Unknown" })
         val speakerPhotos = ArrayList(session.speakerDetails.map { it.profile_img ?: "" })
         val speakerCompanies = ArrayList(session.speakerDetails.map { it.company ?: "N/A" })
         val speakerPositions = ArrayList(session.speakerDetails.map { it.position ?: "N/A" })
-
-        println("Speaker Photos List: $speakerPhotos")
-
 
         val bundle = Bundle().apply {
             putString("title", session.title)

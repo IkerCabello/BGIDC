@@ -45,7 +45,7 @@ class NewSessionFragment : Fragment() {
     }
 
     private fun setupRoomDropdown() {
-        val rooms = listOf("Room A1", "Room B1")
+        val rooms = listOf("Panel 1", "Panel 2", "Panel 3")
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, rooms)
         binding.dropdownRoom.setAdapter(adapter)
     }
@@ -78,7 +78,7 @@ class NewSessionFragment : Fragment() {
         binding.etStartTime.setOnClickListener {
             showTimePicker { hour, minute ->
                 val cal = Calendar.getInstance()
-                cal.set(2025, Calendar.OCTOBER, 10, hour, minute, 0)
+                cal.set(2025, Calendar.OCTOBER, 16, hour, minute, 0)
                 selectedStartTime = Timestamp(cal.time)
                 binding.etStartTime.setText(formatTime(cal.time))
             }
@@ -87,7 +87,7 @@ class NewSessionFragment : Fragment() {
         binding.etEndTime.setOnClickListener {
             showTimePicker { hour, minute ->
                 val cal = Calendar.getInstance()
-                cal.set(2025, Calendar.OCTOBER, 10, hour, minute, 0)
+                cal.set(2025, Calendar.OCTOBER, 16, hour, minute, 0)
                 selectedEndTime = Timestamp(cal.time)
                 binding.etEndTime.setText(formatTime(cal.time))
             }
@@ -111,7 +111,7 @@ class NewSessionFragment : Fragment() {
         val desc = binding.etDescription.text.toString().trim()
         val room = binding.dropdownRoom.text.toString().trim()
 
-        if (title.length < 6 || !title.matches(Regex("^[\\w\\s]+\$"))) {
+        if (title.length < 6 || !title.matches(Regex("^[\\w\\s\":,\\.]+$"))) {
             binding.etTitle.error = "Invalid title"
             return
         }
@@ -138,8 +138,10 @@ class NewSessionFragment : Fragment() {
             val overlaps = sessions.any {
                 it.room == room &&
                         it.start_time != null && it.end_time != null &&
-                        selectedStartTime!!.toDate() < it.end_time.toDate() &&
-                        selectedEndTime!!.toDate() > it.start_time.toDate()
+                        (
+                                selectedStartTime!!.toDate().time == it.start_time.toDate().time ||
+                                        selectedEndTime!!.toDate().time == it.end_time.toDate().time
+                                )
             }
 
             if (overlaps) {

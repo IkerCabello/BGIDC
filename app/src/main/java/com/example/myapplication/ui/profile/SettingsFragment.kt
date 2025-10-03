@@ -64,13 +64,16 @@ class SettingsFragment : Fragment() {
     }
 
     private fun loadUserSettings(userId: String) {
-        db.collection("users").document(userId).get()
+        db.collection("users")
+            .whereEqualTo("id", userId)
+            .get()
             .addOnSuccessListener { document ->
-                if (document != null && document.exists()) {
-                    userType = document.getString("user_type")
-                    val isVisible = document.getString("visible")
+                if (document != null) {
+                    val doc = document.documents[0]
+                    userType = doc.getString("user_type")
+                    val isVisible = doc.getBoolean("visible")
 
-                    currentVisibleValue = isVisible.equals("true")
+                    currentVisibleValue = isVisible == true
 
                     when (userType) {
                         "speaker", "admin" -> {

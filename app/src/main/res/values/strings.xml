@@ -46,9 +46,10 @@
     <string name="sm2">My Schedule</string>
 
     <!-- SCHEDULE PAGE -->
-    <string name="af1">Room A1</string>
-    <string name="af2">Room B1</string>
-    <string name="af3">All</string>
+    <string name="af1">Panel 1</string>
+    <string name="af2">Panel 2</string>
+    <string name="af3">Panel 3</string>
+    <string name="af4">All</string>
 
     <!-- PROFILE PAGE -->
     <string name="username">Username</string>

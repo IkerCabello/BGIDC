@@ -48,11 +48,15 @@ class ListSessionsFragment : Fragment() {
         loadSessions()
 
         binding.btnRoom1.setOnClickListener {
-            filterSessionsByRoom("Room A1")
+            filterSessionsByRoom("Panel 1")
         }
 
         binding.btnRoom2.setOnClickListener {
-            filterSessionsByRoom("Room B1")
+            filterSessionsByRoom("Panel 2")
+        }
+
+        binding.btnRoom3.setOnClickListener {
+            filterSessionsByRoom("Panel 3")
         }
 
         binding.btnAll.setOnClickListener {
@@ -88,7 +92,8 @@ class ListSessionsFragment : Fragment() {
 
     private fun filterSessionsByRoom(room: String) {
         val filtered = allSessions.filter { it.room == room }
-        adapter.updateList(filtered)
+        val sorted = filtered.sortedBy { it.start_time?.toDate() }
+        adapter.updateList(sorted)
     }
 
     private fun filterSessionsByQuery(query: String) {
