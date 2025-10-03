@@ -80,7 +80,7 @@ class VerifyCodeFragment : Fragment() {
                     } catch (e: Exception) {
                         "office@idvkm.com"
                     }
-                    val sender = SmtpSender(requireContext(), smtpUser, smtpPass)
+                    val sender = SmtpSender(requireContext().toString(), smtpUser, smtpPass)
                     sender.sendChangePasswordEmail(from = smtpFrom, to = email, cCode = newCode)
 
                     CoroutineScope(Dispatchers.Main).launch {

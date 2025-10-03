@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.idvkm.bgidc.R
 import com.idvkm.bgidc.dao.FirebaseCalls
 import com.idvkm.bgidc.ui.model.Session
-import com.idvkm.bgidc.ui.schedule.SessionsAdapter
 import java.text.SimpleDateFormat
 import java.util.Locale
 

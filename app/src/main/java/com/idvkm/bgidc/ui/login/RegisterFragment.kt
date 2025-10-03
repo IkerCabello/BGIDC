@@ -112,7 +112,7 @@ class RegisterFragment : Fragment() {
                     "office@idvkm.com"
                 }
 
-                val sender = SmtpSender(requireContext(), smtpUser.toString(), smtpPass.toString())
+                val sender = SmtpSender(requireContext().toString(), smtpUser.toString(), smtpPass.toString())
 
                 // We removed temporary credentials generation, so pass empty strings (adjust if your SmtpSender requires other params)
                 sender.sendWelcomeEmail(

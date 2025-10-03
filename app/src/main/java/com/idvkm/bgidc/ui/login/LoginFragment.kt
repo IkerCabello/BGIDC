@@ -159,7 +159,8 @@ class LoginFragment : Fragment() {
                                         "office@idvkm.com"
                                     }
 
-                                    val sender = SmtpSender(requireContext(), smtpUser, smtpPass
+                                    val sender = SmtpSender(
+                                        requireContext().toString(), smtpUser, smtpPass
                                     )
                                     sender.sendWarningEmail(
                                         from = smtpFrom,

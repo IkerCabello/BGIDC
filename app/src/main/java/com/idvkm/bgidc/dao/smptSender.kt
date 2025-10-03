@@ -1,6 +1,5 @@
 package com.idvkm.bgidc.dao
 
-import android.content.Context
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Properties
@@ -13,9 +12,9 @@ import javax.mail.internet.InternetAddress
 import javax.mail.internet.MimeMessage
 
 class SmtpSender(
-    private val context: Context,
     private val smtpUser: String,
-    private val smtpPass: String
+    private val smtpPass: String,
+    toString: String
 ) {
     private fun createSession(): Session {
         val props = Properties().apply {

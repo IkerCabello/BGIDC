@@ -13,7 +13,6 @@ class ChangePasswordViewModel : ViewModel() {
     val code: LiveData<String?> = _code
 
     private val _userId = MutableLiveData<String?>()
-    val userId: LiveData<String?> = _userId
 
     fun setEmail(e: String) { _email.value = e }
     fun setCode(c: String) { _code.value = c }
