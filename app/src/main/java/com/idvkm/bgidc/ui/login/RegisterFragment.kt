@@ -40,6 +40,7 @@ class RegisterFragment : Fragment() {
         )
 
         binding.tvGoToContact.visibility = View.GONE
+        binding.tvError.visibility = View.GONE
 
         binding.btnRegister.setOnClickListener {
             val email = binding.etEmailet.text.toString().trim()
