@@ -128,8 +128,6 @@ class RegisterFragment : Fragment() {
                 Toast.makeText(requireContext(), "Welcome email sent. Please complete your profile.", Toast.LENGTH_LONG).show()
             } catch (e: Exception) {
                 e.printStackTrace()
-                Toast.makeText(requireContext(), "Error sending welcome email: ${e.message}", Toast.LENGTH_LONG).show()
-                // Still navigate to UpdateUserFragment, or decide to block navigation until email is sent
                 val bundle = bundleOf("email" to email)
                 findNavController().navigate(R.id.action_registerFragment_to_updateUserFragment, bundle)
             }

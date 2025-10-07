@@ -45,17 +45,29 @@ class SettingsFragment : Fragment() {
         btnSave.setOnClickListener {
             if (userType == "attendee" && userId != null) {
                 val newVisibleValue = visibleSwitch.isChecked
-                db.collection("users").document(userId!!)
-                    .update("visible", newVisibleValue)
-                    .addOnSuccessListener {
-                        Toast.makeText(requireContext(), "Configuration saved", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.navigation_profile)
+
+                db.collection("users")
+                    .whereEqualTo("id", userId)
+                    .get()
+                    .addOnSuccessListener { documents ->
+                        if (!documents.isEmpty) {
+                            val document = documents.documents[0].reference
+                            document.update("visible", newVisibleValue)
+                                .addOnSuccessListener {
+                                    Toast.makeText(requireContext(), "Configuration saved", Toast.LENGTH_SHORT).show()
+                                    findNavController().navigate(R.id.navigation_profile)
+                                }
+                                .addOnFailureListener {
+                                    Toast.makeText(requireContext(), "Error saving", Toast.LENGTH_SHORT).show()
+                                }
+                        } else {
+                            Toast.makeText(requireContext(), "User not found", Toast.LENGTH_SHORT).show()
+                        }
                     }
                     .addOnFailureListener {
-                        Toast.makeText(requireContext(), "Error saving", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Error fetching user", Toast.LENGTH_SHORT).show()
                     }
             } else {
-
                 findNavController().navigate(R.id.navigation_profile)
             }
         }
