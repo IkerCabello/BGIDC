@@ -45,16 +45,12 @@ class ListSessionsFragment : Fragment() {
 
         loadSessions()
 
-        binding.btnRoom1.setOnClickListener {
-            filterSessionsByRoom("Panel 1")
-        }
-
         binding.btnRoom2.setOnClickListener {
-            filterSessionsByRoom("Panel 2")
+            filterSessionsByRoom("Business Track")
         }
 
         binding.btnRoom3.setOnClickListener {
-            filterSessionsByRoom("Panel 3")
+            filterSessionsByRoom("Tech Track")
         }
 
         binding.btnAll.setOnClickListener {

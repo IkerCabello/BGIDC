@@ -19,7 +19,6 @@ import java.util.Locale
 class AgendaFragment : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
-    private lateinit var btnRoom1: Button
     private lateinit var btnRoom2: Button
     private lateinit var btnRoom3: Button
     private lateinit var btnRoom4: Button
@@ -36,8 +35,6 @@ class AgendaFragment : Fragment() {
 
         recyclerView = view.findViewById(R.id.recyclerViewAgenda)
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 1)
-
-        btnRoom1 = view.findViewById(R.id.btn_room1)
         btnRoom2 = view.findViewById(R.id.btn_room2)
         btnRoom3 = view.findViewById(R.id.btn_room3)
         btnRoom4 = view.findViewById(R.id.btn_room4)
@@ -50,9 +47,8 @@ class AgendaFragment : Fragment() {
 
         loadSessions()
 
-        btnRoom1.setOnClickListener { filterSessions("Panel 1") }
-        btnRoom2.setOnClickListener { filterSessions("Panel 2") }
-        btnRoom3.setOnClickListener { filterSessions("Panel 3") }
+        btnRoom2.setOnClickListener { filterSessions("Business Track") }
+        btnRoom3.setOnClickListener { filterSessions("Tech Track") }
         btnRoom4.setOnClickListener { showAllSessions() }
 
         return view

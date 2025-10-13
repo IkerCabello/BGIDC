@@ -48,7 +48,7 @@ class NewSessionFragment : Fragment() {
     }
 
     private fun setupRoomDropdown() {
-        val rooms = listOf("Panel 1", "Panel 2", "Panel 3")
+        val rooms = listOf("Business Track", "Tech Track")
         val adapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, rooms)
         binding.dropdownRoom.setAdapter(adapter)
     }
@@ -114,7 +114,7 @@ class NewSessionFragment : Fragment() {
         val desc = binding.etDescription.text.toString().trim()
         val room = binding.dropdownRoom.text.toString().trim()
 
-        if (title.length < 6 || !title.matches(Regex("^[\\w\\s\":,\\.]+$"))) {
+        if (title.length < 6 || !title.matches(Regex("^[\\w\\s\"':,.]+$"))) {
             binding.etTitle.error = "Invalid title"
             return
         }
@@ -194,6 +194,7 @@ class NewSessionFragment : Fragment() {
                 .set(session)
                 .addOnSuccessListener {
                     Toast.makeText(context, "Session created successfully", Toast.LENGTH_SHORT).show()
+
                 }
                 .addOnFailureListener {
                     Toast.makeText(context, "Error saving session", Toast.LENGTH_SHORT).show()

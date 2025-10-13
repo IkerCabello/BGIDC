@@ -63,7 +63,7 @@ class EditSessionFragment : Fragment() {
     }
 
     private fun setupRoomDropdown() {
-        val rooms = listOf("Panel 1", "Panel 2", "Panel 3")
+        val rooms = listOf("Business Track", "Tech Track")
         val adapter = ArrayAdapter(requireContext(), R.layout.simple_spinner_item, rooms)
         adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
         binding.editRoomSpinner.adapter = adapter
@@ -166,7 +166,7 @@ class EditSessionFragment : Fragment() {
         val desc = binding.editDescription.text.toString().trim()
         val room = binding.editRoomSpinner.selectedItem.toString()
 
-        if (title.length < 6 || !title.matches(Regex("^[\\w\\s]+$"))) {
+        if (title.length < 6 || !title.matches(Regex("^[\\w\\s\"':,.]+$"))) {
             binding.editTitle.error = "Invalid title"
             return
         }
