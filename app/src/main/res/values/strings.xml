@@ -33,9 +33,8 @@
     <!-- HOME PAGE -->
     <string name="event_shortname">BGIDC 2025</string>
     <string name="event_name">Bulgarian Identity Conference</string>
-    <string name="event_desc">The first conference in Bulgaria dedicated to Identity Management and the
-        dimensions that this field has in cyber security and the legal initiatives
-        related to it – GDPR, HIPAA, DORA, PCI DSS and the MIS Directive 2.</string>
+    <string name="event_desc">Following the success of its first edition, Bulgarian Identity Conference 2025 returns as the leading event in Bulgaria dedicated to Identity Management and its critical role in cybersecurity and regulatory compliance.
+This second edition brings together professionals, decision-makers, and technology providers to explore how digital identity shapes modern organizations—from secure access and risk management to legal frameworks and operational resilience.</string>
     <string name="btn1">Attendees</string>
     <string name="btn2">Partners</string>
     <string name="btn3">Speakers</string>
